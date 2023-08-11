@@ -1,0 +1,190 @@
+{
+    "ids_properties/homogeneous_time": {
+        "MAP_TYPE": "VALUE",
+        "VALUE": 0
+    },
+    "signal/value/float": {
+        "MAP_TYPE": "VALUE",
+        "VALUE": 23.5
+    },
+    "signal/value/string": {
+        "MAP_TYPE": "VALUE",
+        "VALUE": "Hello World"
+    },
+    "signal/value/array": {
+        "MAP_TYPE": "VALUE",
+        "VALUE": [1,2,3,4,5]
+    },
+    "signal/value/string_template": {
+        "MAP_TYPE": "VALUE",
+        "VALUE": "{{ Hello }}"
+    },
+    "signal/value/int_template": {
+        "MAP_TYPE": "VALUE",
+        "VALUE": "{{ UNIT_SF }}"
+    },
+    "signal/value/float_template": {
+        "MAP_TYPE": "VALUE",
+        "VALUE": "{{ DEG2RAD }}"
+    },
+    "signal/value/#/dynamic_string_template": {
+        "MAP_TYPE": "VALUE",
+        "VALUE": "{{ COIL_NAMES.1 }}"
+    },
+    "signal/plugin/ip_mastu": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "UDA",
+        "ARGS": {
+            "signal": "/AMC/PLASMA_CURRENT"
+        }
+    },
+    "signal/plugin/ip_mastu/offset": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "UDA",
+        "OFFSET": 2.5,
+        "ARGS": {
+            "signal": "/AMC/PLASMA_CURRENT"
+        }
+    },
+    "signal/plugin/ip_mastu/scale": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "UDA",
+        "SCALE": 2.5,
+        "ARGS": {
+            "signal": "/AMC/PLASMA_CURRENT"
+        }
+    },
+    "signal/plugin/ip_mastu/both": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "UDA",
+        "OFFSET": 2.5,
+        "SCALE": 2.5,
+        "ARGS": {
+            "signal": "/AMC/PLASMA_CURRENT"
+        }
+    },
+    "signal/plugin/ip_DRaFT": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "DRaFT_JSON",
+        "ARGS": {
+            "signal": "/APC/plasma_current/data"
+        }
+    },
+    "signal/plugin/ip_DRaFT/time": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "DRaFT_JSON",
+        "ARGS": {
+            "signal": "/APC/plasma_current/time"
+        }
+    },
+    "signal/plugin/ip_DRaFT/offset": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "DRaFT_JSON",
+        "OFFSET": 2.5,
+        "ARGS": {
+            "signal": "/APC/plasma_current/data"
+        }
+    },
+    "signal/plugin/ip_DRaFT/scale": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "DRaFT_JSON",
+        "SCALE": 2.5,
+        "ARGS": {
+            "signal": "/APC/plasma_current/data"
+        }
+    },
+    "signal/plugin/ip_DRaFT/both": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "DRaFT_JSON",
+        "OFFSET": 2.5,
+        "SCALE": 2.5,
+        "ARGS": {
+            "signal": "/APC/plasma_current/data"
+        }
+    },
+    "signal/slice/mastu_angle": {
+        "MAP_TYPE": "SLICE",
+        "SIGNAL": "_polarisation_angle",
+        "SLICE_INDEX": ["{{indices.0}}","2","3"]
+    },
+    "_polarisation_angle": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "UDA",
+        "ARGS": {
+            "signal": "/AMS/GAMMA/POLARISATION_ANGLE"
+        }
+    },
+    "signal/dim/DRaFT_ip": {
+        "MAP_TYPE": "DIMENSION",
+        "DIM_PROBE": "signal/plugin/DRaFT_ip"
+    },
+    "signal/dim/ip_mastu": {
+        "MAP_TYPE": "DIMENSION",
+        "DIM_PROBE": "signal/plugin/ip_mastu"
+    },
+    "signal/plugin/ip_mastu_neg": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "UDA",
+        "ARGS": {
+            "signal": "/AMC/PLASMA_CURRENT"
+        },
+        "SCALE": -1.0
+    },
+    "signal/plugin/ip_DRaFT_neg": {
+        "MAP_TYPE": "PLUGIN",
+        "PLUGIN": "DRaFT_JSON",
+        "ARGS": {
+            "signal": "/APC/plasma_current/data"
+        },
+        "SCALE": -1.0
+    },
+    "signal/expr/ip_mastu_add": {
+        "MAP_TYPE": "EXPR",
+        "PARAMETERS": {
+            "X": "signal/plugin/ip_mastu",
+            "Y": "signal/plugin/ip_mastu_neg"
+        },
+        "EXPR": "Y+X"
+    },
+    "signal/expr/ip_DRaFT_add": {
+        "MAP_TYPE": "EXPR",
+        "PARAMETERS": {
+            "X": "signal/plugin/ip_DRaFT",
+            "Y": "signal/plugin/ip_DRaFT_neg"
+        },
+        "EXPR": "Y+X"
+    },
+    "signal/expr/ip_mixed_add": {
+        "MAP_TYPE": "EXPR",
+        "PARAMETERS": {
+            "X": "signal/plugin/ip_mastu",
+            "Y": "signal/plugin/ip_DRaFT_neg"
+        },
+        "EXPR": "Y+X"
+    },
+    "signal/expr/advanced": {
+        "MAP_TYPE": "EXPR",
+        "PARAMETERS": {
+            "A": "signal/plugin/ip_mastu",
+            "B": "signal/plugin/ip_mastu_neg",
+            "X": "_temp/1"
+        },
+        "EXPR": "((A + B*X)*10000)/{{UNIT_SF}}"
+    },
+    "_temp/1": {
+        "MAP_TYPE": "VALUE",
+        "VALUE": 3.5
+    },
+    "signal/custom/mastu_hw": {
+        "MAP_TYPE": "CUSTOM",
+        "CUSTOM_TYPE": "MASTU_helloworld"
+    },
+    "signal/custom/draft_hw": {
+        "MAP_TYPE": "CUSTOM",
+        "CUSTOM_TYPE": "DRAFT_helloworld"
+    },
+    "signal/custom/random": {
+        "MAP_TYPE": "CUSTOM",
+        "CUSTOM_TYPE": "not$a&real*function"
+    }
+}

@@ -1,0 +1,123 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "/schemas/toplevel",
+    "description": "JSON Schema for v1.0 of default top-level mappings",
+    "type": "object",
+    "patternProperties": {
+        "^.*$": {
+            "type": "object",
+            "required": [ "MAP_TYPE" ],
+            "properties": {
+                "MAP_TYPE": {
+                    "type": "string",
+                    "enum": ["VALUE", "PLUGIN", "SLICE", "EXPR", "DIMENSION", "CUSTOM"],
+                    "default": "VALUE"
+                }
+            },
+            "oneOf": [
+                { "$ref": "#/$defs/VALUE" },
+                { "$ref": "#/$defs/PLUGIN" },
+                { "$ref": "#/$defs/EXPR" },
+                { "$ref": "#/$defs/SLICE" },
+                { "$ref": "#/$defs/DIMENSION" },
+                { "$ref": "#/$defs/CUSTOM" }
+            ]
+        },
+        "additionalProperties": true
+    },
+    "$defs": {
+        "DIMENSION": {
+            "properties": {
+                "MAP_TYPE": { "const": "DIMENSION" },
+                "DIM_PROBE": { "type": "string" }
+            },
+            "required": [
+                        "MAP_TYPE",
+                        "DIM_PROBE"
+            ],
+            "additionalProperties": false
+        },
+        "VALUE": {
+            "properties": {
+                "MAP_TYPE": { "const": "VALUE" },
+                "VALUE": { "type": ["number", "string", "array", "object"] }
+            },
+            "required": [
+                        "MAP_TYPE",
+                        "VALUE"
+            ],
+            "additionalProperties": false
+        },
+        "PLUGIN": {
+            "properties": {
+                "MAP_TYPE": { "const": "PLUGIN" },
+                "ARGS": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^.*$": {
+                            "type": ["string", "boolean"]
+                        }
+                    }
+                },
+                "PLUGIN": { "type": "string"  },
+                "OFFSET": { "type": ["string", "number"] },
+                "SCALE": { "type": ["string", "number"] }
+            },
+            "required": [
+                        "MAP_TYPE",
+                        "ARGS",
+                        "PLUGIN"
+            ],
+            "additionalProperties": false
+        },
+        "SLICE": {
+            "properties": {
+                "MAP_TYPE": { "const": "SLICE" },
+                "SLICE_INDEX": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "SIGNAL": { "type": "string" }
+            },
+            "required": [
+                        "MAP_TYPE",
+                        "SLICE_INDEX",
+                        "SIGNAL"
+            ],
+            "additionalProperties": false
+        },
+        "EXPR": {
+            "properties": {
+                "MAP_TYPE": { "const": "EXPR" },
+                "PARAMETERS": {
+                    "type": "object",
+                    "patternProperties": { 
+                        "^.*$": {
+                            "type": "string" 
+                        }
+                    }
+
+                },
+                "EXPR": { "type": "string" }
+            },
+            "required": [
+                            "MAP_TYPE",
+                            "PARAMETERS",
+                            "EXPR"
+            ],
+            "additionalProperties": false
+        },
+        "CUSTOM": {
+            "properties": {
+                "MAP_TYPE": { "const": "CUSTOM" }
+            },
+            "required": [
+                            "MAP_TYPE",
+                            "CUSTOM_TYPE"
+            ],
+            "additionalProperties": true
+        }
+    }
+}

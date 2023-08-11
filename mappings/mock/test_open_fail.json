@@ -1,0 +1,9 @@
+{
+    "mappings": { 
+            "ID": "0001"
+            "NUMBER": 42,
+            "BALANCE": 26.5,
+            "UNIQUE": false
+    }
+}
+

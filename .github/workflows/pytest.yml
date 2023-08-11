@@ -1,0 +1,39 @@
+name: mappings test
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: env-debug
+        run: |
+          echo $PWD
+          ls -l
+          python --version
+          pip --version
+          pip list
+      - name: env_package_validate
+        run: |
+          python tests/setup.py build_ext --inplace
+          pytest -v -m env
+      - name: schema_json_validate
+        run: |
+          python tests/setup.py build_ext --inplace
+          pytest -v -m mappings
+

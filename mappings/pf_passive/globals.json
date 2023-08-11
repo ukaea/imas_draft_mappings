@@ -1,0 +1,8 @@
+{
+    "Comment": "Add any variables in here that are needed by your mappings",
+    "Templating": "These can be used for substitution in the signal names",
+    "Hello": "World",
+    "UNIT_SF": 1000,
+    "DEG2RAD": "0.01745329",
+    "COIL_NAMES": ["COIL_1", "COIL_2", "COIL_3"]
+}
